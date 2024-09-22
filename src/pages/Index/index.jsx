@@ -7,6 +7,19 @@ import { CiCloud, CiDroplet } from "react-icons/ci";
 import { IoRainyOutline, IoSunnyOutline } from "react-icons/io5";
 import { FiSunrise } from "react-icons/fi";
 import { LuSunset } from "react-icons/lu";
+import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet'; // Certifique-se de importar L
+
+// Definição do ícone personalizado
+const customIcon = new L.Icon({
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png', 
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', 
+  shadowSize: [41, 41],
+});
 
 function Index() {
   const [estados, setEstados] = useState([]);
@@ -74,7 +87,7 @@ function Index() {
       >
         <option value="">Selecione um estado</option>
         {estados.map((estado) => (
-          <option key={estado.id} value={estado.sigla}> {/* Usando a sigla do estado */}
+          <option key={estado.id} value={estado.sigla}>
             {estado.nome}
           </option>
         ))}
@@ -151,7 +164,6 @@ function Index() {
           <div>
             <h3>Previsão dos Próximos Dias</h3>
             {clima.forecast.forecastday.map((dia) => (
-              
               <div key={dia.date}>
                 <img src={clima.current.condition.icon} alt={clima.current.condition.text} />
                 <h4>{dia.date}</h4>
@@ -162,6 +174,25 @@ function Index() {
               </div>
             ))}
           </div>
+
+          {/* Exibir mapa */}
+          {clima.location.lat && clima.location.lon && (
+            <MapContainer
+              center={[clima.location.lat, clima.location.lon]}
+              zoom={10}
+              style={{ height: '400px', width: '100%' }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Marker position={[clima.location.lat, clima.location.lon]} icon={customIcon}>
+                <Popup>
+                  {clima.location.name}
+                </Popup>
+              </Marker>
+            </MapContainer>
+          )}
         </>
       )}
 
