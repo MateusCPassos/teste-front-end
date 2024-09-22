@@ -46,4 +46,3 @@ export const Nav = styled.nav`
         color: #fff; 
     }
 `;
-
