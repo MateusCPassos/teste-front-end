@@ -46,7 +46,7 @@ function Index() {
     try {
       const cidadeCodificada = encodeURIComponent(removerAcentos(cidadeSelecionada));
       const estadoCodificado = encodeURIComponent(estadoSelecionado);
-      const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=d3eadc9171be4f6f920162823242009&q=${cidadeCodificada},${estadoCodificado},Brazil&days=1`);
+      const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=d3eadc9171be4f6f920162823242009&q=${cidadeCodificada},${estadoCodificado},Brazil&days=5`); // Alterado para 5 dias
 
       // Verifica se a cidade retornada é válida
       if (response.data.location.name.toLowerCase() === removerAcentos(cidadeSelecionada.toLowerCase())) {
@@ -130,25 +130,43 @@ function Index() {
                 </div>
               </div>
               <div className="precipitacao">
-                <p>precipitação: <IoRainyOutline /> {clima.forecast.forecastday[0].day.totalprecip_mm} mm</p>
+                <p>Precipitação: <IoRainyOutline /> {clima.forecast.forecastday[0].day.totalprecip_mm} mm</p>
               </div>
-              <div className="nuves">
-                <p className="nuvens">nuvens:<CiCloud />  {clima.current.cloud}% </p>
+              <div className="nuvens">
+                <p>Nuvens: <CiCloud /> {clima.current.cloud}%</p>
               </div>
-              <div className="idiceUv">
-                <p>indice UV: <IoSunnyOutline />{clima.current.uv}%</p>
+              <div className="indiceUv">
+                <p>Índice UV: <IoSunnyOutline />{clima.current.uv}</p>
               </div>
               <div className="nascerSol">
-                <p>nascer do sol: <FiSunrise />{clima.forecast.forecastday[0].astro.sunrise}  </p>
+                <p>Nascer do Sol: <FiSunrise />{clima.forecast.forecastday[0].astro.sunrise}</p>
               </div>
-              <div className="porSol">por do sol: <LuSunset />{clima.forecast.forecastday[0].astro.sunset}</div>
+              <div className="porSol">
+                <p>Por do Sol: <LuSunset />{clima.forecast.forecastday[0].astro.sunset}</p>
+              </div>
             </div>
           </DetalhesClima>
+
+          {/* Exibir previsão dos próximos dias */}
+          <div>
+            <h3>Previsão dos Próximos Dias</h3>
+            {clima.forecast.forecastday.map((dia) => (
+              
+              <div key={dia.date}>
+                <img src={clima.current.condition.icon} alt={clima.current.condition.text} />
+                <h4>{dia.date}</h4>
+                <p>Condição: {dia.day.condition.text}</p>
+                <p>Min: {dia.day.mintemp_c} °C</p>
+                <p>Max: {dia.day.maxtemp_c} °C</p>
+                <p>Precipitação: {dia.day.totalprecip_mm} mm</p>
+              </div>
+            ))}
+          </div>
         </>
       )}
 
       {/* Exibir mensagem de erro */}
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </Container>
   );
 }
