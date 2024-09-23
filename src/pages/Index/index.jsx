@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
-import { Button, Container, Localizacao, SelectCity, ClimaInfo, DetalhesClima } from "./style"; 
+import { Button, Container, Localizacao, SelectCity, ClimaInfo, DetalhesClima, SelecionarCidade, FormGroup, ButtonContainer, TextoDetalhes, PrevisaoProximosDias, PrevisaoContainer, DiaCard } from "./style";
 import axios from "axios";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { CiCloud, CiDroplet } from "react-icons/ci";
@@ -9,15 +9,14 @@ import { FiSunrise } from "react-icons/fi";
 import { LuSunset } from "react-icons/lu";
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet'; // Certifique-se de importar L
+import L from 'leaflet';
 
-// Definição do ícone personalizado
 const customIcon = new L.Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png', 
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', 
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
   shadowSize: [41, 41],
 });
 
@@ -81,37 +80,41 @@ function Index() {
       <Localizacao>Informe seu estado e sua cidade</Localizacao>
 
       {/* Selecionar o estado */}
-      <select
-        value={estadoSelecionado}
-        onChange={(e) => setEstadoSelecionado(e.target.value)}
-      >
-        <option value="">Selecione um estado</option>
-        {estados.map((estado) => (
-          <option key={estado.id} value={estado.sigla}>
-            {estado.nome}
-          </option>
-        ))}
-      </select>
-
-      {/* Selecionar a cidade */}
-      {estadoSelecionado && (
+      <FormGroup>
         <select
-          value={cidadeSelecionada}
-          onChange={(e) => setCidadeSelecionada(e.target.value)}
+          value={estadoSelecionado}
+          onChange={(e) => setEstadoSelecionado(e.target.value)}
         >
-          <option value="">Selecione uma cidade</option>
-          {cidades.map((cidade) => (
-            <option key={cidade.id} value={cidade.nome}>
-              {cidade.nome}
+          <option value="">Selecione um estado</option>
+          {estados.map((estado) => (
+            <option key={estado.id} value={estado.sigla}>
+              {estado.nome}
             </option>
           ))}
         </select>
-      )}
+
+        {/* Selecionar a cidade */}
+        {estadoSelecionado && (
+          <select
+            value={cidadeSelecionada}
+            onChange={(e) => setCidadeSelecionada(e.target.value)}
+          >
+            <option value="">Selecione uma cidade</option>
+            {cidades.map((cidade) => (
+              <option key={cidade.id} value={cidade.nome}>
+                {cidade.nome}
+              </option>
+            ))}
+          </select>
+        )}
+      </FormGroup>
 
       {/* Botão para buscar */}
-      {cidadeSelecionada && (
-        <Button onClick={buscarClima}>Buscar Clima</Button>
-      )}
+      <ButtonContainer>
+        {cidadeSelecionada && (
+          <Button onClick={buscarClima}>Buscar Clima</Button>
+        )}
+      </ButtonContainer>
 
       {/* Exibir cidade buscada */}
       {clima && (
@@ -130,50 +133,59 @@ function Index() {
               <p>Temperatura Atual: {clima.current.temp_c} °C</p>
             </div>
           </ClimaInfo>
+          <TextoDetalhes>
+            detalhes do clima
+          </TextoDetalhes>
           <DetalhesClima>
             <div className="infornacoes">
-              <div className="tempUmid">
-                <div className="temperatura">
-                  <h3>Temperatura</h3>
-                  <p>Min: <FaLongArrowAltDown /> {clima.forecast.forecastday[0].day.mintemp_c} °C</p>
-                  <p>Max: <FaLongArrowAltUp /> {clima.forecast.forecastday[0].day.maxtemp_c} °C</p>
-                </div>
-                <div className="umidade">
-                  <p>Umidade do ar: <CiDroplet />{clima.current.humidity}%</p>
-                </div>
+              <div className="temperatura">
+                <h3>Temperatura</h3>
+                <p>Min: <FaLongArrowAltDown /> {clima.forecast.forecastday[0].day.mintemp_c} °C</p>
+                <p>Max: <FaLongArrowAltUp /> {clima.forecast.forecastday[0].day.maxtemp_c} °C</p>
+              </div>
+              <div className="umidade">
+                <h3>Umidade do Ar</h3>
+                <p><CiDroplet /> {clima.current.humidity}%</p>
               </div>
               <div className="precipitacao">
-                <p>Precipitação: <IoRainyOutline /> {clima.forecast.forecastday[0].day.totalprecip_mm} mm</p>
+                <h3>Precipitação</h3>
+                <p><IoRainyOutline /> {clima.forecast.forecastday[0].day.totalprecip_mm} mm</p>
               </div>
               <div className="nuvens">
-                <p>Nuvens: <CiCloud /> {clima.current.cloud}%</p>
+                <h3>Nuvens</h3>
+                <p><CiCloud /> {clima.current.cloud}%</p>
               </div>
               <div className="indiceUv">
-                <p>Índice UV: <IoSunnyOutline />{clima.current.uv}</p>
+                <h3>Índice UV</h3>
+                <p><IoSunnyOutline /> {clima.current.uv}%</p>
               </div>
               <div className="nascerSol">
-                <p>Nascer do Sol: <FiSunrise />{clima.forecast.forecastday[0].astro.sunrise}</p>
+                <h3>Nascer do Sol</h3>
+                <p><FiSunrise /> {clima.forecast.forecastday[0].astro.sunrise}</p>
               </div>
               <div className="porSol">
-                <p>Por do Sol: <LuSunset />{clima.forecast.forecastday[0].astro.sunset}</p>
+                <h3>Por do Sol</h3>
+                <p><LuSunset /> {clima.forecast.forecastday[0].astro.sunset}</p>
               </div>
             </div>
           </DetalhesClima>
 
+
           {/* Exibir previsão dos próximos dias */}
-          <div>
-            <h3>Previsão dos Próximos Dias</h3>
+          <PrevisaoProximosDias>Previsão dos Próximos Dias</PrevisaoProximosDias>
+          <PrevisaoContainer>
+
             {clima.forecast.forecastday.map((dia) => (
-              <div key={dia.date}>
-                <img src={clima.current.condition.icon} alt={clima.current.condition.text} />
+              <DiaCard key={dia.date}>
+                <img src={dia.day.condition.icon} alt={dia.day.condition.text} />
                 <h4>{dia.date}</h4>
                 <p>Condição: {dia.day.condition.text}</p>
                 <p>Min: {dia.day.mintemp_c} °C</p>
                 <p>Max: {dia.day.maxtemp_c} °C</p>
                 <p>Precipitação: {dia.day.totalprecip_mm} mm</p>
-              </div>
+              </DiaCard>
             ))}
-          </div>
+          </PrevisaoContainer>
 
           {/* Exibir mapa */}
           {clima.location.lat && clima.location.lon && (
@@ -197,7 +209,7 @@ function Index() {
       )}
 
       {/* Exibir mensagem de erro */}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p>{error}</p>}
     </Container>
   );
 }
