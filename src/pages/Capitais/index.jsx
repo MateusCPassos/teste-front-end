@@ -1,12 +1,30 @@
 import React from "react";
-import { Container } from "./styles";
+import { Container, Title } from "./styles";
+import CapitalCard from "../../components/CapitalCard";
 import Header from "../../components/Header";
 
-function Capitais(){
-    return(
+const capitais = [
+    { city: 'Brasília', country: 'Brasil' },
+    { city: 'Buenos Aires', country: 'Argentina' },
+    { city: 'Lima', country: 'Peru' },
+    { city: 'Lisboa', country: 'Portugal' },
+    { city: 'Washington, D.C.', country: 'EUA' },
+    { city: 'Paris', country: 'França' },
+    { city: 'Moscou', country: 'Rússia' },
+    { city: 'Seul', country: 'Coreia do Sul' },
+    { city: 'Pequim', country: 'China' },
+    { city: 'Berlim', country: 'Alemanha' },
+    { city: 'Pretória', country: 'África do Sul' },
+];
+
+function Capitais() {
+    return (
         <Container>
-            <Header/>
-            <h1>teste Capitais</h1>
+            <Header />
+            <Title>Capitais</Title>
+            {capitais.map(({ city, country }) => (
+                <CapitalCard key={city} city={city} country={country} />
+            ))}
         </Container>
     );
 }

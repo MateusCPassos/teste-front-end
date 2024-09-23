@@ -58,7 +58,7 @@ function Index() {
     try {
       const cidadeCodificada = encodeURIComponent(removerAcentos(cidadeSelecionada));
       const estadoCodificado = encodeURIComponent(estadoSelecionado);
-      const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=d3eadc9171be4f6f920162823242009&q=${cidadeCodificada},${estadoCodificado},Brazil&days=5`); // Alterado para 5 dias
+      const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=d3eadc9171be4f6f920162823242009&q=${cidadeCodificada},${estadoCodificado},Brazil&days=5`); 
 
       // Verifica se a cidade retornada é válida
       if (response.data.location.name.toLowerCase() === removerAcentos(cidadeSelecionada.toLowerCase())) {
