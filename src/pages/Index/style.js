@@ -1,13 +1,18 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-
+  padding: 0;
+  margin: 0;
 `;
 
 export const Localizacao = styled.h1`
   text-align: center;
   font-size: 30px;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 24px; 
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -22,16 +27,18 @@ export const FormGroup = styled.div`
     border-radius: 4px;
     border: 1px solid #ccc;
     width: 200px;
+
+    @media (max-width: 768px) {
+      width: 170px; 
+    }
   }
 `;
-
 
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%; 
 `;
-
 
 export const Button = styled.button`
   padding: 10px 20px;
@@ -42,7 +49,7 @@ export const Button = styled.button`
   border-radius: 4px;
   cursor: pointer;
   margin-top: 20px;
-  text-align: center
+  text-align: center;
 
   &:hover {
     background-color: #45a049;
@@ -54,6 +61,10 @@ export const SelectCity = styled.h2`
   text-align: center;
   font-size: 25px;
   margin-top: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 20px; 
+  }
 `;
 
 export const ClimaInfo = styled.div`
@@ -65,18 +76,29 @@ export const ClimaInfo = styled.div`
   img {
     width: 170px;
     margin-right: 15px;
+
+    @media (max-width: 768px) {
+      width: 120px; 
+    }
   }
 
   p {
     margin: 5px 0;
     font-size: 30px;
+
+    @media (max-width: 768px) {
+      font-size: 24px; 
+    }
   }
 `;
 
 export const TextoDetalhes = styled.h4`
-    text-align: center;
-    font-size: 30px;
+  text-align: center;
+  font-size: 30px;
 
+  @media (max-width: 768px) {
+    font-size: 24px; 
+  }
 `;
 
 export const DetalhesClima = styled.div`
@@ -88,7 +110,7 @@ export const DetalhesClima = styled.div`
 
   .infornacoes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste o valor aqui se necessário */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
 
     div {
@@ -127,11 +149,15 @@ export const DetalhesClima = styled.div`
   }
 `;
 
-
 export const PrevisaoProximosDias = styled.h4`
-    text-align: center;
-    font-size: 30px;
+  text-align: center;
+  font-size: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 24px; 
+  }
 `;
+
 export const PrevisaoContainer = styled.div`
   margin-top: 20px;
   padding: 20px;
@@ -143,7 +169,7 @@ export const PrevisaoContainer = styled.div`
 `;
 
 export const DiaCard = styled.div`
- background-color: #ffffff;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 15px;
@@ -173,4 +199,17 @@ export const DiaCard = styled.div`
     font-size: 14px; 
     color: #555;
   }
+`;
+
+export const Map = styled.div`
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100%;
+  margin-top: 30px;
+
+  @media (max-width: 768px) {
+    flex-direction: column; 
+  }
+
 `;
