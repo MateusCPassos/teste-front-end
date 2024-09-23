@@ -19,7 +19,6 @@ function Index() {
   const [clima, setClima] = useState(null);
   const [error, setError] = useState(null);
 
-  // Chave da API do Google Maps
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyDsXApkaOhOa-FrgTeEB8zbSOtb2Su9CVc'
@@ -57,11 +56,11 @@ function Index() {
         setClima(response.data);
         setError(null);
       } else {
-        setError('Cidade não encontrada. Tente outra.');
+        setError('Cidade não encontrada.');
         setClima(null);
       }
     } catch (error) {
-      setError('Não foi possível buscar as informações climáticas de sua cidade.');
+      setError('Não foi possível buscar as informações');
       setClima(null);
     }
   };
@@ -73,7 +72,7 @@ function Index() {
 
       <FormGroup>
         <select value={estadoSelecionado} onChange={(e) => setEstadoSelecionado(e.target.value)}>
-          <option value="">Selecione um estado</option>
+          <option value="">Selecione seu estado</option>
           {estados.map((estado) => (
             <option key={estado.id} value={estado.sigla}>
               {estado.nome}
@@ -83,7 +82,7 @@ function Index() {
 
         {estadoSelecionado && (
           <select value={cidadeSelecionada} onChange={(e) => setCidadeSelecionada(e.target.value)}>
-            <option value="">Selecione uma cidade</option>
+            <option value="">Selecione sua cidade</option>
             {cidades.map((cidade) => (
               <option key={cidade.id} value={cidade.nome}>
                 {cidade.nome}

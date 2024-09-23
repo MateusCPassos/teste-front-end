@@ -7,7 +7,6 @@ const CapitalCard = ({ city, country }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Função para buscar os dados da temperatura
         const fetchWeatherData = async () => {
             const cidadeCodificada = encodeURIComponent(city);
             const apiKey = 'd3eadc9171be4f6f920162823242009';
